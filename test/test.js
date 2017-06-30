@@ -15,13 +15,14 @@ describe("lifeGame.js", () => {
     assert.equal(lifeGame.loopMod(6, 5), 1);
   });
   
-  it("getNextCellState", () => {
+  it("generateGetNextCellState", () => {
+    let getNextCellState = lifeGame.generateGetNextCellState();
     let field = "000000,001100,010000,000010,001100,000000".split(",").map(str => Array.from(str, str => parseInt(str)));
-    assert.equal(lifeGame.getNextCellState(field, 0, 0), 0);
-    assert.equal(lifeGame.getNextCellState(field, 3, 1), 0);
-    assert.equal(lifeGame.getNextCellState(field, 1, 2), 0);
-    assert.equal(lifeGame.getNextCellState(field, 2, 1), 1);
-    assert.equal(lifeGame.getNextCellState(field, 2, 3), 1);
+    assert.equal(getNextCellState(field, 0, 0), 0);
+    assert.equal(getNextCellState(field, 3, 1), 0);
+    assert.equal(getNextCellState(field, 1, 2), 0);
+    assert.equal(getNextCellState(field, 2, 1), 1);
+    assert.equal(getNextCellState(field, 2, 3), 1);
   });
   
   it("stepLifeGame", () => {

@@ -681,35 +681,32 @@ let loopMod = (val, mod) => {
   return val >= 0 ? val % mod : (val + mod) % mod;
 };
 
-let sliceAroundCells = (field, x, y) => {
-  let field_size = field.length;
-  return [-1, 0, 1].map((dy) => {
-    return [-1, 0, 1].map((dx) => {
-      return field[loopMod(y + dy, field_size)][loopMod(x + dx, field_size)];
-    });
-  });
+let generateGetNextCellState = () => {
+  let around_deltas = Array.from({length: 9}, (x, i) => {
+    return {dx: parseInt(i / 3) - 1, dy: i % 3 - 1};
+  }).filter(obj => !(obj.dx === 0 && obj.dy === 0));
+  
+  return (field, x, y) => {
+    if(field[y][x] === 0){
+      let alive_num = 0;
+      for(let i = 0; i < around_deltas.length; i++){
+        alive_num += field[loopMod(y + around_deltas[i].dy, field.length)][loopMod(x + around_deltas[i].dx, field.length)];
+        if(i - alive_num === 5)return 0;
+        if(alive_num >= 4)return 0;
+      }
+      return 1;
+    }else{
+      let alive_num = around_deltas.reduce((sum, obj) => sum + field[loopMod(y + obj.dy, field.length)][loopMod(x + obj.dx, field.length)], 0);
+      return alive_num <= 1 || alive_num >= 4 ? 0 : 1;
+    }
+  };
 };
 
-let sum2dArray = (array_2d) => {
-  return array_2d.reduce((sum, obj) => {
-    return sum + obj.reduce((sum, obj) => sum + obj);
-  }, 0);
-};
-
-let getNextCellState = (around_cells) => {
-  let around_num = sum2dArray(around_cells) - around_cells[1][1];
-  if(around_cells[1][1] === 0){
-    if(around_num === 3)return 1;
-    else return 0;
-  }else{
-    return around_num <= 1 || around_num >= 4 ? 0 : 1;
-  }
-};
-
-let stepLifeGame = (field) =>{
+let stepLifeGame = (field) => {
+  let getNextCellState = generateGetNextCellState();
   return Array.from(field).map((array, y) => {
     return array.map((obj, x) => {
-      return getNextCellState(sliceAroundCells(field, x, y));
+      return getNextCellState(field, x, y);
     });
   });
 };
@@ -734,9 +731,7 @@ let generateRandomField = (size) => {
 };
 
 module.exports.loopMod = loopMod;
-module.exports.sliceAroundCells = sliceAroundCells;
-module.exports.sum2dArray = sum2dArray;
-module.exports.getNextCellState = getNextCellState;
+module.exports.generateGetNextCellState = generateGetNextCellState;
 module.exports.stepLifeGame = stepLifeGame;
 module.exports.drawField = drawField;
 module.exports.generateRandomField = generateRandomField;
