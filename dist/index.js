@@ -658,19 +658,19 @@ module.exports = function (css) {
 
 let lifeGame = __webpack_require__(7);
 
-let generateMainLoop = (inCanvasContext, drawInterval) => {
+let generateMainLoop = (inCanvasContext) => {
   let canvasContext = inCanvasContext;
   let mainLoop = (field) => {
     lifeGame.drawField(field, canvasContext);
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       mainLoop(lifeGame.stepLifeGame(field));
-    }, drawInterval);
+    });
   };
   
   return mainLoop;
 };
 
-generateMainLoop(document.querySelector("canvas").getContext("2d"), 0)(lifeGame.generateRandomField(100));
+generateMainLoop(document.querySelector("canvas").getContext("2d"))(lifeGame.generateRandomField(100));
 
 
 /***/ }),
