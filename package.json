@@ -1,0 +1,35 @@
+{
+  "name": "functional-life-game",
+  "version": "1.0.0",
+  "description": "develop lige game for functional features.",
+  "main": "index.html",
+  "scripts": {
+    "esinit": "eslint --init",
+    "lint": "eslint src/**/*.js || exit 0",
+    "test": "mocha",
+    "watch:test": "mocha --watch",
+    "build": "webpack",
+    "watch:build": "webpack --watch",
+    "dev": "npm-run-all -p watch:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sititou70/functionalLifeGame.git"
+  },
+  "author": "sititou70",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sititou70/functionalLifeGame/issues"
+  },
+  "homepage": "https://github.com/sititou70/functionalLifeGame#readme",
+  "devDependencies": {
+    "css-loader": "^0.28.4",
+    "eslint": "^4.1.1",
+    "mocha": "^3.4.2",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.0.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.0.0"
+  }
+}
